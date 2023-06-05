@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Imgui-JS HTML Örneği</title>
+    <script src="build\imgui.js"></script>
+    <script>
+        const canvas = document.createElement("canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext("webgl2");
+        Module.onRuntimeInitialized = function () {
+            const imguiCtx = ImGui.CreateContext();
+            ImGui.SetCurrentContext(imguiCtx);
+            ImGui.CreateWasmContext(ctx);
+
+            function renderLoop() {
+                ImGui.NewFrame();
+
+                ImGui.Text("Merhaba dünya!");
+                if (ImGui.Button("Tıkla")) {
+                    console.log("Butona tıklandı!");
+                }
+
+                ImGui.Render();
+                ImGui.UpdatePlatformWindows();
+                ImGui.RenderPlatformWindowsDefault();
+
+                requestAnimationFrame(renderLoop);
+            }
+
+            renderLoop();
+        };
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+ <canvas id="canvas"></canvas>
+</body>
+</html>
